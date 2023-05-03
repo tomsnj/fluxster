@@ -17,8 +17,14 @@ includes:
   cluster: .taskfiles/ClusterTasks.yml
   precommit: .taskfiles/PrecommitTasks.yml
   terraform: .taskfiles/TerraformTasks.yml
+  storage: .taskfiles/StorageTasks.yaml
 
 tasks:
+
+
+  default:
+    silent: true
+    cmds: ["task -l"]
 
   init:
     desc: Initialize workstation dependencies with Brew
