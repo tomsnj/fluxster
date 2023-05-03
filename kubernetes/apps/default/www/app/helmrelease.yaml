@@ -12,7 +12,7 @@ spec:
       version: 2.4.57
       sourceRef:
         kind: HelmRepository
-        name: bitnami/apache
+        name: bitnami
         namespace: flux-system
   maxHistory: 3
   install:
@@ -30,6 +30,9 @@ spec:
       enabled: true
       repository: https://github.com/toms-nj/gs-farm.git
       branch: master
+    image:
+      repository: docker.io/bitnami/apache
+      tag: 2.4.57
     controller:
       strategy: RollingUpdate
     service:
