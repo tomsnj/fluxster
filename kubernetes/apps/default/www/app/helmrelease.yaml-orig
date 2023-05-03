@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.4.57
+      version: 1.4.0
       sourceRef:
         kind: HelmRepository
-        name: bitnami/apache
+        name: bjw-s
         namespace: flux-system
   maxHistory: 3
   install:
@@ -26,12 +26,11 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    cloneHtdocsFromGit:
-      enabled: true
-      repository: https://github.com/toms-nj/gs-farm.git
-      branch: master
     controller:
       strategy: RollingUpdate
+    image:
+      repository: docker.io/jmalloc/echo-server
+      tag: 0.3.5
     service:
       main:
         ports:
