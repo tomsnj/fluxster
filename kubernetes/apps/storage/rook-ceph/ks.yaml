@@ -5,7 +5,7 @@ metadata:
   name: cluster-apps-rook-ceph
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/storage/rook-ceph-dashboard/app
+  path: ./monitoring
   prune: true
   sourceRef:
     kind: GitRepository

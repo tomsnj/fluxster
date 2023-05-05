@@ -30,9 +30,9 @@ spec:
       enabled: true
       repository: https://github.com/toms-nj/gs-farm.git
       branch: master
-        #    image:
-        #      repository: docker.io/bitnami/apache
-        #      tag: 2.4.57-debian-11-r10
+    image:
+      repository: docker.io/bitnami/apache
+      tag: 2.4.57-debian-11-r10
     controller:
       strategy: RollingUpdate
     service:
