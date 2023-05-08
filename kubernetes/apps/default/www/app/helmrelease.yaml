@@ -30,7 +30,7 @@ spec:
   values:
     cloneHtdocsFromGit:
       enabled: true
-      repository: https://github.com/toms-nj/gs-farm.git
+      repository: https://github.com/tomsnj/gs-farm.git
       branch: master
     image:
       repository: docker.io/bitnami/apache
