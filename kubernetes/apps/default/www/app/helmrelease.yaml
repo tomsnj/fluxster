@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: apache
-      version: 9.5.2
+      version: 9.5.3
       sourceRef:
         kind: HelmRepository
         name: bitnami
@@ -28,13 +28,13 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    cloneHtdocsFromGit:
-      enabled: true
-      repository: https://github.com/tomsnj/www-test.git
-      branch: master
+    #cloneHtdocsFromGit:
+    #  enabled: true
+    #  repository: https://github.com/tomsnj/www-test.git
+    #  branch: master
     image:
       repository: docker.io/bitnami/apache
-      tag: 2.4.57-debian-11-r10
+      tag: 2.4.57-debian-11-r14
     controller:
       strategy: RollingUpdate
     service:
@@ -42,18 +42,21 @@ spec:
         ports:
           http:
             port: &port 8080
+          https:
+            port: &port 8443
     probes:
       liveness: &probes
         enabled: true
         custom: true
         spec:
           httpGet:
-            path: /health
+            path: /
             port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
+          initialDelaySeconds: 180
+          periodSeconds: 20
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
       readiness: *probes
       startup:
         enabled: false
