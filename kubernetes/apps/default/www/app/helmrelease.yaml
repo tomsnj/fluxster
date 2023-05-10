@@ -33,7 +33,7 @@ spec:
     #  repository: https://github.com/tomsnj/www-test.git
     #  branch: master
     image:
-      repository: docker.io/bitnami/apache
+      repository: bitnami/apache
       tag: 2.4.57-debian-11-r14
     controller:
       strategy: RollingUpdate
