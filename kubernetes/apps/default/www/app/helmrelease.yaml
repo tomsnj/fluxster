@@ -31,7 +31,7 @@ spec:
     cloneHtdocsFromGit:
       enabled: true
       repository: https://github.com/tomsnj/www-test.git
-      branch: master
+      branch: main
     image:
       repository: bitnami/apache
       tag: 2.4.57-debian-11-r14
