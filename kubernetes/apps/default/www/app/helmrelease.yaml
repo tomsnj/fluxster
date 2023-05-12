@@ -39,11 +39,12 @@ spec:
     controller:
       strategy: RollingUpdate
     service:
-      ports:
-        http:
-          port: &port 8080
-        https:
-          port: &port 8443
+      main:
+        ports:
+          http:
+            port: &port 8080
+          https:
+            port: &port 8443
     probes:
       liveness: &probes
         enabled: true
