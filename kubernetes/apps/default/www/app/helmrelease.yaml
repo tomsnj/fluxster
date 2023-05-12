@@ -28,22 +28,22 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    #cloneHtdocsFromGit:
-    #  enabled: true
-    #  repository: https://github.com/tomsnj/www-test.git
-    #  branch: master
+    cloneHtdocsFromGit:
+      enabled: true
+      repository: https://github.com/tomsnj/www-test.git
+      branch: master
     image:
       repository: bitnami/apache
       tag: 2.4.57-debian-11-r14
+      debug: true
     controller:
       strategy: RollingUpdate
     service:
-      main:
-        ports:
-          http:
-            port: &port 8080
-          https:
-            port: &port 8443
+      ports:
+        http:
+          port: &port 8080
+        https:
+          port: &port 8443
     probes:
       liveness: &probes
         enabled: true
@@ -61,6 +61,7 @@ spec:
       startup:
         enabled: false
     ingress:
+      enabled: true
       main:
         enabled: true
         ingressClassName: nginx
