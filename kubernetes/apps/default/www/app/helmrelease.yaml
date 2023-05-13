@@ -18,13 +18,13 @@ spec:
   install:
     createNamespace: true
     disableWait: true
-      #    remediation:
-      #retries: 3
+    #    remediation:
+    # retries: 3
   upgrade:
-    #cleanupOnFail: true
+    # cleanupOnFail: true
     disableWait: true
-      #remediation:
-      # retries: 3
+    # remediation:
+    # retries: 3
   uninstall:
     keepHistory: false
   values:
@@ -42,9 +42,13 @@ spec:
       main:
         ports:
           http:
-            port: &port 8080
+            primary: false
+            port: 80
           https:
-            port: &port 8443
+            enabled: true
+            primary: true
+            port: 443
+            protocol: HTTPS
     probes:
       liveness: &probes
         enabled: true
@@ -52,7 +56,7 @@ spec:
         spec:
           httpGet:
             path: /
-            port: *port
+            port: 80
           initialDelaySeconds: 180
           periodSeconds: 20
           timeoutSeconds: 5
@@ -61,13 +65,18 @@ spec:
       readiness: *probes
       startup:
         enabled: false
+
     ingress:
-      enabled: true
       main:
         enabled: true
         ingressClassName: nginx
         annotations:
-          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          hajimari.io/enable: "true"
+          hajimari.io/info: GS Farm Website
+          nginx.ingress.kubernetes.io/enable-global-auth: "false"
+          ingress.kubernetes.io/whitelist: 10.0.0.0/8
+          nginx.ingress.kubernetes.io/backened-protocol: "HTTPS"
+          #          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
         hosts:
           - host: &host "www.${SECRET_DOMAIN}"
             paths:
