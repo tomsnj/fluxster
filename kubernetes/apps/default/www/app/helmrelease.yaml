@@ -72,9 +72,10 @@ spec:
         ingressClassName: nginx
         annotations:
           hajimari.io/enable: "true"
+          hajimari.io/icon: video-input-antenna
           hajimari.io/info: GS Farm Website
           nginx.ingress.kubernetes.io/enable-global-auth: "false"
-          ingress.kubernetes.io/whitelist: 10.0.0.0/8
+          ingress.kubernetes.io/whitelist: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           nginx.ingress.kubernetes.io/backened-protocol: "HTTPS"
           #          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
         hosts:
