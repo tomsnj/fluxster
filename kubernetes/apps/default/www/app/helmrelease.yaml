@@ -79,7 +79,7 @@ spec:
           nginx.ingress.kubernetes.io/backened-protocol: "HTTPS"
           #          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
         hosts:
-          - host: &host "www.${SECRET_DOMAIN}"
+          - host: &host "www.gs-farm.net"
             paths:
               - path: /
                 pathType: Prefix
