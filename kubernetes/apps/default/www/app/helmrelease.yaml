@@ -18,37 +18,53 @@ spec:
   install:
     createNamespace: true
     disableWait: true
-    #    remediation:
-    # retries: 3
+    remediation:
+      retries: 3
   upgrade:
-    # cleanupOnFail: true
+    cleanupOnFail: true
     disableWait: true
-    # remediation:
-    # retries: 3
+    remediation:
+      retries: 3
   uninstall:
     keepHistory: false
   values:
+    global:
+      storageClass: manual
     cloneHtdocsFromGit:
       enabled: true
-      repository: https://github.com/tomsnj/www-test.git
+      repository: https://github.com/tomsnj/gs-farm.git
       branch: main
     image:
+      registry: docker.io
       repository: bitnami/apache
-      tag: 2.4.57-debian-11-r14
+      tag: 2.4.57-debian-11-r20
       debug: true
     controller:
       strategy: RollingUpdate
+    hostAliases:
+      - ip: "127.0.0.1"
+        hostnames:
+          - "status.localhost"
+    containerSecurityContext:
+      runAsNonRoot: false
+    volumePermissions:
+      enabled: true
+
     service:
-      main:
-        ports:
-          http:
-            primary: false
-            port: 80
-          https:
-            enabled: true
-            primary: true
-            port: 443
-            protocol: HTTPS
+      ports:
+        http: 80
+        https: 443
+          #http:
+          #primary: false
+          #port: 80
+          #https:
+          #enabled: true
+          #primary: true
+          #port: 443
+          #protocol: HTTPS
+        nodePorts:
+          http: 80
+          https: 443
     probes:
       liveness: &probes
         enabled: true
@@ -67,25 +83,32 @@ spec:
         enabled: false
 
     ingress:
-      main:
-        enabled: true
-        ingressClassName: nginx
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: video-input-antenna
-          hajimari.io/info: GS Farm Website
-          nginx.ingress.kubernetes.io/enable-global-auth: "false"
-          ingress.kubernetes.io/whitelist: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-          nginx.ingress.kubernetes.io/backened-protocol: "HTTPS"
+      #main:
+      enabled: true
+      ingressClassName: nginx
+      hostname: "www.gs-farm.net"
+      path: /
+      annotations:
+        external-dns.alpha.kubernetes.io/target: "ipv4.gs-farm.net"
+      tls:
+        hosts: www.gs-farm.net
+        #secretName: www.gs-farm.net-tls
+        #annotations:
+        #hajimari.io/enable: "true"
+        #hajimari.io/icon: video-input-antenna
+        #hajimari.io/info: GS Farm Website
+        #nginx.ingress.kubernetes.io/enable-global-auth: "false"
+        #ingress.kubernetes.io/whitelist: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+        #nginx.ingress.kubernetes.io/backened-protocol: "HTTPS"
           #          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
-        hosts:
-          - host: &host "www.gs-farm.net"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
+          #hosts:
+          #- host: &host "www.gs-farm.net"
+          #paths:
+          #- path: /
+          #pathType: Prefix
+          #tls:
+          #- hosts:
+          #- *host
     resources:
       requests:
         cpu: 5m
