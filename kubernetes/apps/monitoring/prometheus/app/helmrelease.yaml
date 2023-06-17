@@ -33,7 +33,7 @@ spec:
         existingClaim: kube-prometheus-stack-pvc
       ingress:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         hosts:
           - alertmanager.gs-farm.net
         path: /
