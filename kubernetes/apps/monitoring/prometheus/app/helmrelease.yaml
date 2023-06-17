@@ -2,18 +2,18 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: prom
+  name: prometheus-operator
   namespace: monitoring
 spec:
   interval: 15m
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 46.6.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
+        version: 46.6.0
   maxHistory: 3
   install:
     createNamespace: true
