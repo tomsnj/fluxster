@@ -39,9 +39,9 @@ spec:
         path: /
         annotations:
         tls:
-          secretName: kubernetes-dashboard-tls
-          hosts:
-            - alertmanager.gs-farm.net
+          - secretName: kubernetes-dashboard-tls
+            hosts:
+              - alertmanager.gs-farm.net
     grafana:
       persistentVolume:
         existingClaim: kube-prometheus-stack-pvc
