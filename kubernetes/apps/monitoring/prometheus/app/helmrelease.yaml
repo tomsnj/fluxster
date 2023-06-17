@@ -31,9 +31,18 @@ spec:
     alertmanager:
       persistentVolume:
         existingClaim: kube-prometheus-stack-pvc
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hostname: "alertmanager.gs-farm.net"
+        path: /
+        annotations:
+        tls:
+          hosts: alertmanager.gs-farm.net
     grafana:
       persistentVolume:
         existingClaim: kube-prometheus-stack-pvc
     server:
       persistentVolume:
         existingClaim: kube-prometheus-stack-pvc
+        external-dns.alpha.kubernetes.io/target: "ipv4.gs-farm.net"
