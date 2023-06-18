@@ -44,7 +44,7 @@ spec:
               - alertmanager.gs-farm.net
     grafana:
       persistentVolume:
-        existingClaim: kube-prometheus-stack-pvc
+        existingClaim: grafana-pvc
       ingress:
         enabled: true
         className: nginx
