@@ -30,7 +30,7 @@ spec:
   values:
     alertmanager:
       persistentVolume:
-        existingClaim: kube-prometheus-stack-pvc
+        existingClaim: alertmanager-pvc
       ingress:
         enabled: true
         className: nginx
