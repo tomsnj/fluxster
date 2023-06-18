@@ -45,7 +45,29 @@ spec:
     grafana:
       persistentVolume:
         existingClaim: kube-prometheus-stack-pvc
+      ingress:
+        enabled: true
+        className: nginx
+        hosts:
+          - grafana.gs-farm.net
+        path: /
+        annotations:
+        tls:
+          - secretName: kubernetes-dashboard-tls
+            hosts:
+              - grafana.gs-farm.net
     server:
       persistentVolume:
         existingClaim: kube-prometheus-stack-pvc
         external-dns.alpha.kubernetes.io/target: "ipv4.gs-farm.net"
+      ingress:
+        enabled: true
+        className: nginx
+        hosts:
+          - prometheus.gs-farm.net
+        path: /
+        annotations:
+        tls:
+          - secretName: kubernetes-dashboard-tls
+            hosts:
+              - prometheus.gs-farm.net
