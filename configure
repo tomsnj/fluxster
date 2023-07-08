@@ -68,6 +68,7 @@ main() {
         generate_ansible_host_secrets
         setup_github_webhook
         setup_weave_gitops
+        setup_authentik
         success
     fi
 }
@@ -481,6 +482,22 @@ setup_weave_gitops() {
     envsubst < "${PROJECT_DIR}/tmpl/kubernetes/weave-gitops-secret.sops.yaml" \
         > "${PROJECT_DIR}/kubernetes/apps/flux-system/weave-gitops/app/secret.sops.yaml"
     sops --encrypt --in-place "${PROJECT_DIR}/kubernetes/apps/flux-system/weave-gitops/app/secret.sops.yaml"
+}
+
+setup_authentik() {
+    _has_envar "BOOTSTRAP_AUTHENTIK_SECRET"
+    AUTHENTIK_SECRET="${BOOTSTRAP_AUTHENTIK_SECRET}"
+    if [[ "${AUTHENTIK_SECRET}" == "generated" ]]; then
+        AUTHENTIK_SECRET="$(openssl rand -base64 30)"
+    fi
+    export AUTHENTIK_SECRET="${AUTHENTIK_SECRET}"
+    _log "INFO(${FUNCNAME[0]})" "Using admin password '${AUTHENTIK_SECRET}' for Authentik cluster-domain-cert"
+    # Convert password to bcrypt hash
+    # shellcheck disable=SC2155
+    export AUTHENTIK_SECRET="$(echo -n "${AUTHENTIK_SECRET}" | gitops get bcrypt-hash)"
+    envsubst < "${PROJECT_DIR}/tmpl/kubernetes/authentik-secret.sops.yaml" \
+        > "${PROJECT_DIR}/kubernetes/apps/auth/authentik/app/authentik-secret.sops.yaml"
+    sops --encrypt --in-place "${PROJECT_DIR}/kubernetes/apps/auth/authentik/app/authentik-secret.sops.yaml"
 }
 
 success() {
