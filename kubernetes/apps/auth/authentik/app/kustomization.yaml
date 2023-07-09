@@ -6,4 +6,3 @@ resources:
   - authentik-db.yaml
   - helmrelease.yaml
   - ldap-service.yaml
-  - network.yaml
