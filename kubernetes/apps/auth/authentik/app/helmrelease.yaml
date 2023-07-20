@@ -35,8 +35,45 @@ spec:
         nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
         nginx.org/websocket-services: authentik
         nginx.ingress.kubernetes.io/enable-global-auth: "false"
-
-
+#      - from:
+#          namespaceSelector:
+#            matchLabels:
+#              kubernetes.io/metadata.name: networking
+#      - from:
+#          namespaceSelector:
+#            matchLabels:
+#              kubernetes.io/metadata.name: authentik
+#          namespaceSelector:
+#            matchLabels:
+#              kubernetes.io/metadata.name: postgres
+#          ports:
+#            - protocol: TCP
+#              port: 5432
+#              endPort: 5432
+#            - protocol: TCP
+#              port: 8008 #Patroni
+#              endPort: 8008
+#        from:
+#          # Allow LDAP ingress
+#          - ipBlock:
+#              cidr: "10.0.0.0/8"
+#          - ipBlock:
+#              cidr: "192.0.0.0/8"
+#          ports:
+#            - protocol: TCP
+#              port: 3389
+#              endPort: 3389
+#            - protocol: TCP
+#              port: 6636
+#              endPort: 6636
+#      egress:
+#        - to:
+#          # Allow all egress
+#            - ipBlock:
+#                cidr: "0.0.0.0/0"
+#      policyTypes:
+#        - Ingress
+#        - Egress
       hosts:
         - host: "authentik.{SECRET_DOMAIN}"
           paths:
