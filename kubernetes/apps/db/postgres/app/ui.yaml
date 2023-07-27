@@ -29,11 +29,12 @@ spec:
         nginx.ingress.kubernetes.io/configuration-snippet: |
           auth_request_set $required_groups 'admin';
       hosts:
-        - host: "postgres-operator.${BOOTSTRAP_CLOUDFLARE_DOMAIN}"
+        - host: "postgres-operator.gs-farm.net"
           paths: [""]
+            #- host: "postgres-operator.${BOOTSTRAP_CLOUDFLARE_DOMAIN}"
           #      - host: "postgres-operator.home.${CLUSTER_DOMAIN}"
           #        paths: [""]
       tls:
         - hosts:
-            - "postgres-operator.${BOOTSTRAP_CLOUDFLARE_DOMAIN}"
+            - "postgres-operator.gs-farm.net"
           #        - "postgres-operator.home.${CLUSTER_DOMAIN}"
