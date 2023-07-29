@@ -21,11 +21,13 @@ spec:
       targetNamespace: # Show all namespaces
     ingress:
       enabled: true
+      ingressClassName: nginx
       annotations:
-        hajimari.io/enable: "true"
-        hajimari.io/icon: logos:postgresql
-        hajimari.io/info: PostgreSQL cluster editor
-        hajimari.io/group: admin
+        external-dns.alpha.kubernetes.io/target: "ipv4.gs-farm.net"
+        #hajimari.io/enable: "true"
+        #hajimari.io/icon: logos:postgresql
+        #hajimari.io/info: PostgreSQL cluster editor
+        #hajimari.io/group: admin
         nginx.ingress.kubernetes.io/configuration-snippet: |
           auth_request_set $required_groups 'admin';
       hosts:
@@ -37,4 +39,4 @@ spec:
       tls:
         - hosts:
             - "postgres-operator.gs-farm.net"
-          #        - "postgres-operator.home.${CLUSTER_DOMAIN}"
+          #        - "postgres-operator.home./Users/Dad ${CLUSTER_DOMAIN}"
