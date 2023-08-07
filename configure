@@ -69,6 +69,7 @@ main() {
         setup_github_webhook
         setup_weave_gitops
         setup_authentik
+	setup_bitwarden
         success
     fi
 }
@@ -498,6 +499,39 @@ setup_authentik() {
     envsubst < "${PROJECT_DIR}/tmpl/kubernetes/authentik-secret.sops.yaml" \
         > "${PROJECT_DIR}/kubernetes/apps/auth/authentik/app/authentik-secret.sops.yaml"
     sops --encrypt --in-place "${PROJECT_DIR}/kubernetes/apps/auth/authentik/app/authentik-secret.sops.yaml"
+}
+
+setup_bitwarden() {
+    _has_envar "BOOTSTRAP_BW_CLIENTID"
+    BW_CLIENTID="${BOOTSTRAP_BW_CLIENTID}"
+    if [[ "${BW_CLIENTID}" == "generated" ]]; then
+        BW_CLIENTID="$(openssl rand -base64 30)"
+    fi
+    export BOOTSTRAP_BW_CLIENTID="${BW_CLIENTID}"
+    _log "INFO(${FUNCNAME[0]})" "Using admin client id '${BW_CLIENTID}' for Bitwarden cluster-domain-cert"
+
+    _has_envar "BOOTSTRAP_BW_CLIENTSECRET"
+    BW_CLIENTSECRET="${BOOTSTRAP_BW_CLIENTSECRET}"
+    if [[ "${BW_CLIENTSECRET}" == "generated" ]]; then
+        BW_CLIENTSECRET="$(openssl rand -base64 30)"
+    fi
+    export BOOTSTRAP_BW_CLIENTSECRET="${BW_CLIENTSECRET}"
+    _log "INFO(${FUNCNAME[0]})" "Using admin client secret '${BW_CLIENTSECRET}' for Bitwarden cluster-domain-cert"
+
+    _has_envar "BOOTSTRAP_BW_PASSWORD"
+    BW_PASSWORD="${BOOTSTRAP_BW_PASSWORD}"
+    if [[ "${BW_PASSWORD}" == "generated" ]]; then
+        BW_PASSWORD="$(openssl rand -base64 30)"
+    fi
+    export BOOTSTRAP_BW_PASSWORD="${BW_PASSWORD}"
+    _log "INFO(${FUNCNAME[0]})" "Using admin client password '${BW_PASSWORD}' for Bitwarden cluster-domain-cert"
+
+    # Convert password to bcrypt hash
+    # shellcheck disable=SC2155
+    #export AUTHENTIK_SECRET="$(echo -n "${AUTHENTIK_SECRET}" | gitops get bcrypt-hash)"
+    envsubst < "${PROJECT_DIR}/tmpl/kubernetes/secret.sops.yaml" \
+        > "${PROJECT_DIR}/kubernetes/apps/kube-system/external-secrets/bitwarden/secret.sops.yaml"
+    sops --encrypt --in-place "${PROJECT_DIR}/kubernetes/apps/kube-system/external-secrets/bitwarden/secret.sops.yaml"
 }
 
 success() {
