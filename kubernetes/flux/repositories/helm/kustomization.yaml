@@ -16,8 +16,8 @@ resources:
   - ./stakater.yaml
   - ./weave-gitops.yaml
   - ./prometheus-community.yaml
-  - ./zalando-postgres-operator.yaml
-  - ./zalando-postgres-ui.yaml
-  - ./angelnu.yaml
+    #  - ./zalando-postgres-operator.yaml
+    #  - ./zalando-postgres-ui.yaml
+    #  - ./angelnu.yaml
   - ./authentik-charts.yaml
   - ./external-secrets.yaml
