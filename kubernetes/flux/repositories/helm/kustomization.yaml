@@ -17,4 +17,3 @@ resources:
   - ./weave-gitops.yaml
   - ./prometheus-community.yaml
   - ./authentik-charts.yaml
-  - ./external-secrets.yaml
