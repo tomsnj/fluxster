@@ -68,8 +68,8 @@ main() {
         generate_ansible_host_secrets
         setup_github_webhook
         setup_weave_gitops
-        setup_authentik
-	setup_bitwarden
+#        setup_authentik
+#	setup_bitwarden
         success
     fi
 }
